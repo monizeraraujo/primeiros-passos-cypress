@@ -1,14 +1,14 @@
 class DashboardPage {
   selectorsList() {
     const selectors = {
-      dashboardGrid: ".orangehrm-dashboard-grid",
+      dashboardGrid: ".oxd-text--h6",
     };
     return selectors;
   }
 
   checkDashboardPage() {
     cy.location("pathname").should("equal", "/web/index.php/dashboard/index");
-    cy.get(this.selectorsList().dashboardGrid).should("be.visible");
+    cy.get(this.selectorsList().dashboardGrid, { timeout: 10000 }).contains('Dashboard').should("be.visible");
   }
 }
 

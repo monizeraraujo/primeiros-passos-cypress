@@ -1,7 +1,7 @@
 class LoginPage {
   selectorsList() {
     const selectors = {
-      usernameField: "[name='username']",
+      usernameField:"[placeholder='Username']" ,
       passwordField: "[name='password']",
       loginButton: "[type='submit']",
       wrongCredentialAlert: "[role='alert']",
@@ -11,16 +11,25 @@ class LoginPage {
   }
 
   accessLoginPage() {
-    cy.visit("/auth/login");
-  }
+    cy.visit('/auth/login');
+    cy.url().should('include', 'login');
+}
 
-  loginWithUser(username, password) {
-    cy.get(this.selectorsList().usernameField).type(username);
-    cy.get(this.selectorsList().passwordField).type(password);
-    cy.get(this.selectorsList().loginButton).click();
-  }
-checkAccessInvalid(){
-  cy.get(this.selectorsList().wrongCredentialAlert);
+ loginWithUser(username, password) {
+  cy.get(this.selectorsList().usernameField, { timeout: 15000 })
+    .should('be.visible') 
+    .type(username);
+
+  cy.get(this.selectorsList().passwordField)
+    .should('be.visible')
+    .type(password);
+
+  cy.get(this.selectorsList().loginButton).click();
+}
+checkAccessInvalid() {
+  cy.get(this.selectorsList().wrongCredentialAlert)
+    .should('be.visible')
+    .and('contain', 'Invalid credentials');
 }
   
 }
